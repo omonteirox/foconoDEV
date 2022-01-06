@@ -4,3 +4,11 @@
 #form-questions{
     margin-top: 5vh;
 }
+.naruto{
+    margin-top: 40vh;
+    text-align: center;
+}
+.center{
+    text-align: center;
+    flex: auto;
+}
