@@ -1,0 +1,14 @@
+{
+  "name": "usandoexpress",
+  "version": "1.0.0",
+  "description": "Usando o xpress p aprender",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "gustavin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
