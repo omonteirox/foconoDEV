@@ -1,0 +1,33 @@
+<%- include('./partials/header.ejs'); %>
+    <%- include('./partials/homenavbar.ejs'); %>
+
+        <body>
+            <div class="container">
+                <div class="p-5 mb-4 bg-light rounded-3">
+                    <div class="container-fluid py-5">
+                        <h1 class="display-5 fw-bold">BEM VINDO !</h1>
+                        <p class="col-md-8 fs-4">Esse aqui é o blog feito pelo gustavin, usando bootstrap,nodejs,ejs
+                            entre outras maluquices <br> Agora dá uma olhadinha nos artigos aí:</p>
+                    </div>
+                </div>
+
+                <% articles.forEach(article=> { %>
+                    <div
+                        class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <h3 class="mb-0">
+                                <%=article.title%>
+                            </h3>
+                            <strong class="d-inline-block mb-2 text-primary">
+                                <%=article.category.title%>
+                            </strong>
+                            <br>
+                            <a href="/<%=article.slug%>" class="stretched-link">Ler Artigo</a>
+                        </div>
+                    </div>
+
+                    <% })%>
+
+            </div>
+        </body>
+        <%- include('./partials/footer.ejs'); %>
