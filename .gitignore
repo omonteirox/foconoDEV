@@ -8,3 +8,21 @@ nodeJS/projetoPerguntaResposta/.env
 nodeJS/projetoBLOG/node_modules/
 
 nodeJS/projetoBLOG/.env
+
+.vscode/
+
+HelloWorld/
+
+projetoBLOG/node_modules/
+
+projetoBLOG/.env
+
+usandoModulos/
+
+usandoExpress/node_modules/
+
+projetoPerguntaResposta/node_modules/
+
+projetoPerguntaResposta/.env
+
+projetoPerguntaResposta/aprendendoEJS.js
