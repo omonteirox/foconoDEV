@@ -31,9 +31,14 @@ app.use("/", categoriesController);
 app.use("/", articlesController);
 app.get("/", (req, res) => {
   articlesModel
-    .findAll({ include: [{ model: categoriesModel }] })
+    .findAll({
+      order: [["id", "DESC"]],
+      include: [{ model: categoriesModel }],
+    })
     .then((articles) => {
-      res.render("index", { articles: articles });
+      categoriesModel.findAll().then((categories) => {
+        res.render("index", { articles: articles, categories: categories });
+      });
     });
 });
 app.get("/:slug", (req, res) => {
@@ -47,10 +52,37 @@ app.get("/:slug", (req, res) => {
     .then((article) => {
       if (article == undefined) res.redirect("/");
       else {
-        res.render("article", { article: article });
+        categoriesModel.findAll().then((categories) => {
+          res.render("article", { article: article, categories: categories });
+        });
       }
     })
     .catch((error) => {
+      res.redirect("/");
+    });
+});
+app.get("/category/:slug", (req, res) => {
+  let slug = req.params.slug;
+  categoriesModel
+    .findOne({
+      where: {
+        slug: slug,
+      },
+      include: [{ model: articlesModel }]
+    })
+    .then((category) => {
+      let teste = false
+      if (category == undefined) res.redirect("/");
+      else {
+        categoriesModel.findAll().then(categories => {
+          res.render("index", {
+            articles: category.articles,
+            categories: categories,
+          });
+        });
+      }
+    })
+    .catch((err) => {
       res.redirect("/");
     });
 });
