@@ -44,22 +44,65 @@ router.post("/articles/delete", (req, res) => {
     }
   }
 });
+
 router.get("/admin/articles/edit/:id", (req, res) => {
-  let id = req.body.id;
-  if (isNaN(id)) res.redirect("/admin/articles/");
+  let id = req.params.id;
   ArticleModel.findByPk(id)
     .then((article) => {
-      if (article == undefined) res.redirect("/admin/articles/");
+      if (article == undefined) res.redirect("admin/articles");
       else {
-        res.redirect("/admin/articles/edit", { article: article });
+        CategoryModel.findAll().then((categories) => {
+          res.render("admin/articles/edit", {
+            article: article,
+            categories: categories,
+          });
+        });
       }
     })
-    .catch((error) => {
-      res.redirect("/admin/articles/");
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/admin/articles");
     });
 });
 router.post("/articles/update", (req, res) => {
   let id = req.body.id;
   let title = req.body.title;
+  let body = req.body.body;
+  let categoryId = req.body.category;
+  ArticleModel.update(
+    { title: title, slug: slugify(title), body: body, categoryId: categoryId },
+    { where: { id: id } }
+  ).then(() => {
+    res.redirect("/admin/articles");
+  });
+});
+router.get("/articles/page/:num", (req, res) => {
+  let page = req.params.num;
+  let offset = 0;
+  let limit = 2;
+  if (isNaN(page) || page == 1) offset = 0;
+  else {
+    offset = parseInt(page) * limit;
+  }
+  ArticleModel.findAndCountAll({
+    limit: limit,
+    offset: offset,
+  }).then((articles) => {
+    let next;
+    if (offset + limit >= articles.count) next = false;
+    else {
+      next = true;
+    }
+    let result = {
+      next: next,
+      articles: articles,
+    };
+    CategoryModel.findAll().then((categories) => {
+      res.render("admin/articles/page", {
+        result: result,
+        categories: categories,
+      });
+    });
+  });
 });
 module.exports = router;
